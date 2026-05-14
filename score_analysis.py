@@ -176,70 +176,71 @@ def main() -> None:
         
         choice = input("请选择功能编号：")
         
-        if choice == "1":
-            # 录入成绩
-            while True:
-                try:
-                    num_input = input("请输入要录入的学生数量：")
-                    num_students = int(num_input)
+        match choice:
+            case "1":
+                # 录入成绩
+                while True:
+                    try:
+                        num_input = input("请输入要录入的学生数量：")
+                        num_students = int(num_input)
+                        
+                        if num_students <= 0:
+                            print("学生数量必须是正整数，请重新输入！")
+                            continue
+                        
+                        scores = input_scores(num_students)
+                        print(f"成功录入 {len(scores)} 位学生的成绩！")
+                        break
+                        
+                    except ValueError:
+                        print("输入的不是有效数值，请重新输入！")
+            
+            case "2":
+                # 计算平均分
+                if len(scores) == 0:
+                    print("请先录入成绩！")
+                else:
+                    average = calculate_average(scores)
+                    print(f"全体学生的平均分：{average:.2f}")
+            
+            case "3":
+                # 评定单成绩等级
+                while True:
+                    try:
+                        user_input = input("请输入要评定的成绩：")
+                        score = float(user_input)
+                        
+                        if score < 0 or score > 100:
+                            print("成绩必须在0到100之间，请重新输入！")
+                            continue
+                        
+                        grade = grade_score(score)
+                        print(f"成绩{score:.1f}的等级：{grade}")
+                        break
+                        
+                    except ValueError:
+                        print("输入的不是有效数值，请重新输入！")
+            
+            case "4":
+                # 保存结果
+                if len(scores) == 0:
+                    print("请先录入成绩！")
+                else:
+                    average = calculate_average(scores)
+                    print(f"全体学生的平均分：{average:.2f}")
                     
-                    if num_students <= 0:
-                        print("学生数量必须是正整数，请重新输入！")
-                        continue
-                    
-                    scores = input_scores(num_students)
-                    print(f"成功录入 {len(scores)} 位学生的成绩！")
-                    break
-                    
-                except ValueError:
-                    print("输入的不是有效数值，请重新输入！")
-        
-        elif choice == "2":
-            # 计算平均分
-            if len(scores) == 0:
-                print("请先录入成绩！")
-            else:
-                average = calculate_average(scores)
-                print(f"全体学生的平均分：{average:.2f}")
-        
-        elif choice == "3":
-            # 评定单成绩等级
-            while True:
-                try:
-                    user_input = input("请输入要评定的成绩：")
-                    score = float(user_input)
-                    
-                    if score < 0 or score > 100:
-                        print("成绩必须在0到100之间，请重新输入！")
-                        continue
-                    
-                    grade = grade_score(score)
-                    print(f"成绩{score:.1f}的等级：{grade}")
-                    break
-                    
-                except ValueError:
-                    print("输入的不是有效数值，请重新输入！")
-        
-        elif choice == "4":
-            # 保存结果
-            if len(scores) == 0:
-                print("请先录入成绩！")
-            else:
-                average = calculate_average(scores)
-                print(f"全体学生的平均分：{average:.2f}")
-                
-                file_path = "score_result.txt"
-                save_results(scores, file_path)
-                print(f"结果已保存至：{file_path}")
-        
-        elif choice == "0":
-            # 退出程序
-            print("程序结束！")
-            break
-        
-        else:
-            # 无效的功能编号
-            print("无效的功能编号，请输入0-4之间的数字！")
+                    file_path = "score_result.txt"
+                    save_results(scores, file_path)
+                    print(f"结果已保存至：{file_path}")
+            
+            case "0":
+                # 退出程序
+                print("程序结束！")
+                break
+            
+            case _:
+                # 无效的功能编号
+                print("无效的功能编号，请输入0-4之间的数字！")
 
 
 if __name__ == "__main__":
